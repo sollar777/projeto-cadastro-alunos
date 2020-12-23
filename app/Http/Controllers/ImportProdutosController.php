@@ -9,7 +9,6 @@ use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use League\Csv\Reader;
 use League\Csv\Statement;
-use SplTempFileObject;
 
 class ImportProdutosController extends Controller
 {
@@ -28,8 +27,7 @@ class ImportProdutosController extends Controller
             $file = $request->csv->storeAs('csv', 'produtos' . CarbonImmutable::now()->isoFormat('DD-MM-YYYY') . '.csv');
         }
 
-        $mercadorias = Produto::all();
-        $turmas = Turma::all();
+        
 
         $csv = Reader::createFromPath('../storage/app/' . $file, 'r');
         $csv->setDelimiter(";");
@@ -41,13 +39,25 @@ class ImportProdutosController extends Controller
         $headers = $records->getHeader();
         $produtos = [];
 
-        foreach ($records as $key => $record) {
+        $turmas_produtos = Turma_Produto::all();
 
+        foreach ($records as $key => $record) {
             $produtos[$key] = array_values($record);
         }
 
+        for ($i = 3; $i < count($headers); $i++) {
+            $turma = Turma::where("nome", $headers[$i])->first();
+            if (!$turma) {
+                if ($headers[$i] !== "" || !isset($headers[$i])) {
+                    Turma::create([
+                        'nome' => $headers[$i]
+                    ]);
+                }
+            }
+        }
+
         foreach ($produtos as $produto) {
-            $mercadoria = $mercadorias->where("nome", $produto[0])->first();
+            $mercadoria = Produto::where("nome", $produto[0])->first();
             if (!$mercadoria) {
                 $mercadoria = Produto::create([
                     "nome" => $produto[0],
@@ -55,15 +65,28 @@ class ImportProdutosController extends Controller
                     "estoque" => $produto[2]
                 ]);
             }
-            for ($i = 0; $i < count($produto); $i++) {
+        }
+
+        $turmas = Turma::all();
+
+        foreach($produtos as $produto){
+            for ($i = 3; $i < count($produto) - 1; $i++) {
                 if ($produto[$i] === "x") {
                     $turma = $turmas->where('nome', $headers[$i])->first();
-                    $produtos_turmas = $turma->produtos()->where("produto_id", $mercadoria->id);
-                    if (!$produtos_turmas) {
+                    $mercadoria = Produto::where('nome', $produto[0])->first();
+                    if (count($turmas_produtos) == 0) {
                         $ligacao = Turma_Produto::create([
                             "turma_id" => $turma->id,
                             "produto_id" => $mercadoria->id
                         ]);
+                    } else {
+                        $produtos_turmas = $turma->produtos()->where("produto_id", $mercadoria->id)->get();
+                        if (!$produtos_turmas) {
+                            $ligacao = Turma_Produto::create([
+                                "turma_id" => $turma->id,
+                                "produto_id" => $mercadoria->id
+                            ]);
+                        }
                     }
                 }
             }

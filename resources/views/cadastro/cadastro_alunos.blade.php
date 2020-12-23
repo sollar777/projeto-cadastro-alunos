@@ -13,7 +13,7 @@
         </div>
         <div class="col-md-4">
             <label for="">Data de nascimento</label>
-            <input type="text" class="form-control" name="data_nascimento">
+            <input type="date" class="form-control" name="data_nascimento">
         </div>
         <div class="col-md-4">
             <label for="">Turma</label>
@@ -40,7 +40,7 @@
         </div>
         <div class="col-md-2">
             <label for="">Cidade</label>
-            <input type="text" name="Cidade" id="" class="form-control cidade-aluno">
+            <input type="text" name="cidade" id="" class="form-control cidade-aluno">
         </div>
         <div class="col-md-2">
             <label for="">UF</label>

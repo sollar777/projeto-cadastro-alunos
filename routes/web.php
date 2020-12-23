@@ -25,7 +25,7 @@ Route::get('/', function () {
 Route::get('/produtos/importar', [ImportProdutosController::class, 'upload'])->name('produtos.importar');
 Route::post('/produtos/importar', [ImportProdutosController::class, 'uploadCsv'])->name('produtos.importar.csv');
 
-
+Route::get('/vendas/exibir', [VendasController::class, 'index'])->name('vendas.exibir');
 Route::get('/vendas/criar', [VendasController::class, 'create'])->name('vendas.criar');
 Route::post('/vendas/criar', [VendasController::class, 'store'])->name('vendas.salvar');
 Route::get('/vendas/produto/buscar/{id}', [VendasController::class, 'produto_aluno'])->name('vendas.produto.buscar');

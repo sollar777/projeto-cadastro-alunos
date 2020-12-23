@@ -50,7 +50,15 @@ class AlunoController extends Controller
         $dados = $request->all();
         $turma = Turma::find($dados["turma"]);
 
-        $turma->alunos()->create([$dados]);
+        $turma->alunos()->create([
+            "nome" => $dados["nome"],
+            "data_nascimento" => $dados["data_nascimento"],
+            "cep" => $dados["cep"],
+            "endereco" => $dados["endereco"],
+            "bairro" => $dados["bairro"],
+            "cidade" => $dados["cidade"],
+            "uf" => $dados["uf"]
+        ]);
 
         return redirect(route('alunos.listagem'));
     }

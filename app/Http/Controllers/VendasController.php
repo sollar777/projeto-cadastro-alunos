@@ -7,6 +7,7 @@ use App\Models\Produto;
 use App\Models\Venda;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VendasController extends Controller
 {
@@ -17,7 +18,18 @@ class VendasController extends Controller
      */
     public function index()
     {
-        //
+        $vendas = DB::table("vendas")
+                        ->join("alunos", "vendas.aluno_id", "=", "alunos.id")
+                        ->join("vendas_itens", "vendas.id", "=", "vendas_itens.venda_id")
+                        ->select("vendas.id", "vendas.finalizada","alunos.nome",
+                        DB::raw("DATE_FORMAT(vendas.data, '%d/%m/%Y') as data"),
+                        DB::raw("SUM(vendas_itens.preco * vendas_itens.quantidade) as total"))
+                        ->groupBy("vendas.id", "vendas.finalizada", "alunos.nome", "vendas.data")
+                        ->orderByDesc("vendas.id")
+                        ->get();
+
+
+        return view('vendas.vendas_listagem', compact("vendas"));
     }
 
     /**
