@@ -211,6 +211,7 @@ $(".form-finalizar-venda").on("submit", function (e) {
                     $(".form-check-input").attr("checked", true);
                     $(".btn-finalizar-venda").attr("disabled", true);
                     $(".b-adicionar-prod-venda").attr("disabled", true);
+                    window.location.href = "/vendas/exibir"
                 }
             }
         })
