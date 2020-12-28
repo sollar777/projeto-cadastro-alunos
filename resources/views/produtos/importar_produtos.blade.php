@@ -14,4 +14,6 @@
         </div>   
     </form>
 
+    <input type="hidden" value="{{url('/')}}" class="url_produtos" name="url">
+
 @endsection

@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   db:
-    build: ./mydocker/.docker/mysql
+    build: .docker/mysql
     container_name: db
     restart: 'always'
     ports:
@@ -16,7 +16,7 @@ services:
     networks:
       - app-network
   php:
-    build: ./mydocker/.docker/php
+    build: .docker/php
     container_name: 'php'
     restart: 'always'
     ports:
@@ -26,8 +26,7 @@ services:
       - redis
     volumes:
       - /var/www/html/logdocker/var/log:/var/log/
-      - ./:/var/www
-      - ./public:/var/www/html
+      - G:\Projetos Laravel:/var/www/html
     networks: 
       - app-network
   redis:

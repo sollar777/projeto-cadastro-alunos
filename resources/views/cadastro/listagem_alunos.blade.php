@@ -3,6 +3,8 @@
 @section('content')
 
 <h3 class="h3-listagem-alunos">Listagem de Alunos</h3>
+
+<input type="hidden" value="{{url('/')}}" id="url_aluno" name="url">
     
 <table class="table table-striped listagem-alunos">
     <thead>

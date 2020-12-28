@@ -1,8 +1,10 @@
+var getUrlVendas = $("#url_vendas").val()
+
 $(".form-cabecalho-vendas").on("submit", function (e) {
     e.preventDefault();
 
     $.ajax({
-        url: "/vendas/criar",
+        url: getUrlVendas + "/vendas/criar",
         type: "post",
         data: $(this).serialize(),
         dataType: "json"
@@ -24,7 +26,7 @@ $(".select-aluno-venda").on("change", function () {
     if ($(this).val() > 0) {
         var id = $(this).val();
         $.ajax({
-            url: "/vendas/produto/buscar/" + id,
+            url: getUrlVendas + "/vendas/produto/buscar/" + id,
             type: "get",
             dataType: "json"
         }).done(function (data) {
@@ -55,7 +57,7 @@ $(".select-produtos-venda").on("change", function () {
         var id = $(this).val();
 
         $.ajax({
-            url: "/produtos/buscar/" + id,
+            url: getUrlVendas + "/produtos/buscar/" + id,
             type: "get",
             dataType: "json"
         }).done(function (data) {
@@ -78,7 +80,7 @@ $("#form-add-item").on("submit", function (e) {
 
     if ($(".select-produtos-venda").val() > 0) {
         $.ajax({
-            url: "/vendasitens/adicionar",
+            url: getUrlVendas + "/vendasitens/adicionar",
             type: "post",
             data: $(this).serialize(),
             dataType: "json"
@@ -115,7 +117,7 @@ function modalEditarProduto(id) {
     if (!$(".form-check-input").is("checked")) {
         if (id > 0) {
             $.ajax({
-                url: "/vendasitens/editar/" + id,
+                url: getUrlVendas + "/vendasitens/editar/" + id,
                 type: "get",
                 dataType: "json"
             }).done(function (data) {
@@ -149,7 +151,7 @@ $(".modal-item-venda").on("submit", function (e) {
     })
 
     $.ajax({
-        url: "/vendasitens/editar/" + id,
+        url: getUrlVendas + "/vendasitens/editar/" + id,
         type: "put",
         data: $(this).serialize(),
         dataType: "json"
@@ -176,7 +178,7 @@ function modalRemoverProduto(id) {
             })
 
             $.ajax({
-                url: "/vendasitens/excluir/" + id,
+                url: getUrlVendas + "/vendasitens/excluir/" + id,
                 type: "delete",
                 dataType: "json"
             }).done(function (data) {
@@ -202,7 +204,7 @@ $(".form-finalizar-venda").on("submit", function (e) {
 
     if (id > 0) {
         $.ajax({
-            url: "/vendas/finalizar/" + id,
+            url: getUrlVendas + "/vendas/finalizar/" + id,
             type: "put",
             data: $(this).serialize(),
             dataType: "json",
@@ -211,7 +213,7 @@ $(".form-finalizar-venda").on("submit", function (e) {
                     $(".form-check-input").attr("checked", true);
                     $(".btn-finalizar-venda").attr("disabled", true);
                     $(".b-adicionar-prod-venda").attr("disabled", true);
-                    window.location.href = "/vendas/exibir"
+                    window.location.href = getUrlVendas + "/vendas/exibir"
                 }
             }
         })

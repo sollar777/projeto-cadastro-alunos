@@ -33,4 +33,6 @@
     </tbody>
 </table>
 
+<input type="hidden" value="{{url('/')}}" id="url_vendas" name="url">
+
 @endsection

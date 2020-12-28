@@ -1,9 +1,10 @@
 $(".cep-aluno").on("change", function () { 
     cep = $(this).val()
+    getUrlAluno = $("#url_aluno").val()
 
     if(cep){
         $.ajax({
-            url: "/alunos/buscarcep/" + cep,
+            url: getUrlAluno + "/alunos/buscarcep/" + cep,
             type: "get",
             dataType: "json"
         }).done(function (data) { 
