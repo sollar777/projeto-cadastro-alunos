@@ -24,7 +24,8 @@ RUN apt install -y libxml2-dev \
     && docker-php-ext-install tokenizer \
     && docker-php-ext-install json \
     && docker-php-ext-install -j$(nproc) intl \
-    && docker-php-ext-install mbstring
+    && docker-php-ext-install mbstring \
+    && docker-php-ext-install openssl
     
 ## IMAP para configuracoes de email
 RUN apt install -y libc-client-dev libkrb5-dev && rm -r /var/lib/apt/lists/*

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Facedes\Utilities;
 use App\Models\Turma;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -110,11 +111,10 @@ class AlunoController extends Controller
 
     public function buscarCep($cep)
     {
-        $cep = preg_replace("/[^0-9]/", "", $cep);
-        $url = "http://viacep.com.br/ws/$cep/xml/";
-
-        $retorno = simplexml_load_file($url);
+        
+        $retorno = Utilities::getCep($cep);
 
         return response()->json([$retorno], 200);
     }
+
 }
